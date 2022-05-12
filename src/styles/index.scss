@@ -1,0 +1,231 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+// @import './devicerecord.scss';
+
+body {
+  height: 100%;
+  background-color:white;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Microsoft YaHei, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  position: fixed;
+  border-right: 1px solid rgba(0,0,0,.07);
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: transform .25s ease-out;
+  width: 100%;
+  z-index: 998;
+}
+.sidebar::-webkit-scrollbar {
+  width: 4px
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px
+}
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background: hsla(0,0%,53%,.4)
+}
+.sidebar:hover::-webkit-scrollbar-track {
+  background: hsla(0,0%,53%,.1)
+}
+
+// 使用el-scrollbar后关闭X轴滚动条
+.el-scrollbar__wrap{
+  overflow-x:auto;
+}
+
+// 修复使用el-scrollbar后关闭X轴滚动条后 最后一项显示不全的问题
+.el-select-dropdown .el-scrollbar .el-scrollbar__wrap{
+  overflow: scroll;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  outline: none;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+// 增加表头样式
+.el-table th{
+  // background-color: #eeeeee88;
+  color: $themeColor;
+  font-weight: 700;
+}
+.el-table::before {
+  z-index: 0;
+}
+.el-pager li{
+  background-color: transparent !important;
+  color: #fff !important;
+  &.active {
+    background-color: $themeColor !important;
+  }
+}
+
+.el-table {
+  tbody {
+    .el-table__row {
+      background-color: #f0f2f5;
+      td {
+        padding: 4px 0;
+        border-bottom: 5px solid #fff;
+      }
+      &:last-child {
+        td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+
+}
+
+.pagination-container {
+  padding: 8px 4px !important;
+}
+.skip {
+  color: $themeColor;
+}
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+//main-container全局样式
+.app-main {
+  min-height: 100%
+}
+
+.app-container {
+  padding: 20px;
+}
+
+.filter-container {
+  // padding-bottom: 10px;
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+.divider {
+  margin-top:0px;
+  margin-bottom: 0px;
+  border: 0;
+  color: #bfcbd9;
+  background-color: #bfcbd9;
+  height: 1px
+}
+
+.divider-big {
+  margin-top:0px;
+  margin-bottom: 0px;
+  border: 0;
+  color: #eeeeee;
+  background-color: #eeeeee;
+  height: 4px
+}
+
+.dialog-form-item {
+  margin-right: 20px;
+}
+
+.createtask-toolbar-item {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.devicegroup-toolbar-item {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.el-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0 !important;
+  transform: translate(-50%, -50%);
+  max-height: calc(100% - 30px);
+  max-width: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  > .el-dialog__body {
+    padding: 15px 10px;
+    overflow: auto;
+    color: #666666;
+  }
+}
+
+// 修改全局滚动条样式 火狐不支持修改
+::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+  cursor: pointer;
+}
+//滚动条的滑块
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144,147,153,.3);
+  border-radius: 4px;
+  &:hover{
+    background-color: rgba(144,147,153,.5)
+  }
+}

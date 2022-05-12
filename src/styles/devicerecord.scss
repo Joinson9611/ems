@@ -1,0 +1,131 @@
+$themeColor: #3d44c0;
+.app-container {
+  /deep/.el-card__header {
+    padding: 10px 14px;
+    border-bottom: none;
+  }
+  min-height: calc(100vh - 50px);
+  padding: 10px;
+  background-color: rgb(240, 242, 245);
+  display: flex;
+  flex-direction: column;
+  /deep/.el-card__body {
+    padding: 10px;
+  }
+  /deep/.el-card {
+    border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .filter-container {
+    padding: 0;
+  }
+  .title {
+    float: left;
+    color: $themeColor;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .graph {
+    display: flex;
+    font-family: "STHeiti";
+    flex-direction: row;
+    .graph-item {
+      flex: 1;
+      margin-right: 10px;
+      border-radius: 4px;
+      border-left: 6px solid $themeColor;
+      &:last-child {
+        margin-right: 0;
+      }
+      /deep/.el-card__body {
+        padding: 0;
+        // height: 250px;
+      }
+    }
+  }
+  .deviceList {
+    border-radius: 4px;
+    padding: 8px;
+    background-color: #fff;
+    flex: 1;
+    margin-top: 10px;
+    /deep/.el-card__body {
+      min-height: 260px;
+    }
+  }
+  .chart-wrapper {
+    height: 180px;
+    width: 100%;
+    padding: 10px;
+    padding-right: 0;
+    display: flex;
+    .left {
+      flex: 1.2;
+    }
+    .right {
+      flex: 1;
+    }
+    .half {
+      position: relative;
+      &::after {
+        position: absolute;
+        top:15%;
+        bottom: 15%;
+        right:0;
+        content: '';
+        width: 0;
+        border-right: solid #b4b4b5 2px;
+        opacity: .3;
+      }
+      &:last-child::after {
+        border: none;
+      }
+      .chart {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 150px;
+        height: 150px;
+      }
+      .data-wrapper {
+        padding: 10px 0 10px 15px;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        // justify-content: center;
+        .data-item {
+          display: flex;
+          margin-right: 8px;
+          flex-direction: column;
+          // align-items: center;
+          &:last-child {
+            margin-right: 0;
+          }
+          .item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            &:last-child {
+              margin-right:0;
+            }
+            .header {
+              .percentage {
+                font-size: 12px;
+              }
+            }
+            .number {
+              color: #000;
+              margin-top: 10px;
+              font-size: 18px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

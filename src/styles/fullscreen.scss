@@ -1,0 +1,349 @@
+#hompage {
+  font-family: 'Avenir', Helvetica, Arial,'Microsoft YaHei','PingFang SC';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  color: #2c3e50;
+  font-size: 14px;
+  background-size: cover;
+  margin: 0;
+  padding:0;
+  height:100%;
+  width:100%;
+  overflow: hidden;
+  background-color:hsla(229, 38%, 15%, 1); 
+}
+
+#maincontainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: normal;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden!important;
+  box-sizing: border-box;
+  color:#fff;
+  font-size:16px;
+}
+#body{
+  height:1080px;
+  width:1920px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding:10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition-duration: .1s;
+  .header_top{
+    height:65px;
+    width:100%;
+    box-sizing: border-box;
+    padding:10px 20px 0 20px;
+  }
+  .header_title{
+    margin:0 15px;
+    font-size:30px;
+    font-weight:bold;
+    font-family: "Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    background-image:-webkit-linear-gradient( rgba(223, 190, 106, 0.8),#FFD700 );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .timerday{
+    width:15px;
+    height:20px;
+    text-align: center;
+    background-color:rgba(254, 223, 80, .2);
+    color:#FEDF50;
+    line-height:19px;
+    margin:0 1px;
+  }
+  .header_tab{
+    height:50px;
+    width:100%;
+    background-color:rgba(40, 54, 100, .8);
+    .tabtext{
+      font-size: 18px;
+      color:rgba(223, 250, 255, 1);
+      text-align: center;
+      width:210px;
+      height:100%;
+      line-height:50px;
+      // cursor: pointer;
+      position: relative;
+    }
+  }
+}
+.flex_b{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height:35px;
+}
+.flex_b_left{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  line-height:35px;
+}
+.flex_b_middle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height:35px;
+}
+.flex_b_right{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  line-height:35px;
+}
+.top_con{
+  height:680px;
+  width:100%;
+  box-sizing: border-box;
+  padding:10px 0;
+  .top_con_left{
+    width:540px;
+    height:100%;
+  }
+  .top_con_middle{
+    width:calc(100% - 1100px);
+    height:100%;
+    box-sizing: border-box;
+    padding:0px;
+  }
+  .top_con_right{
+    width:540px;
+    height:100%;
+  }
+}
+.bottom_con{
+  height:275px;
+  width:100%;
+  box-sizing: border-box;
+  margin-bottom:10px;
+}
+.top_con_right_title{
+  padding: 0 13px;
+  height: 40px;
+  // background: #283664;
+  display: -webkit-flex;
+  align-items: center;
+  justify-content: space-between;
+  .title_left{
+    width:50%;
+    font-size: 18px;
+    display: -webkit-flex;
+    align-items: center;
+    img{
+      width: 16px;
+      height: 16px;
+      margin-right: 13px;
+    }
+    h5{
+      //font-size:16px;
+      color: #ffffff;
+      font-family:PingFangSC-Medium;
+      height: 16px;
+      line-height: 16px;
+    }
+  }
+}
+.top_con_right_one_notice{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 48px;
+  background:rgba(40,54,100,.2);
+  display: -webkit-flex;
+  align-items: center;
+  img{
+    margin: 0 6px 0 26px;
+  }
+  p:first-of-type{
+    font-size:14px;
+    font-weight:500;
+    color:rgba(0,247,189,1);
+  }
+  p:last-of-type{
+    font-size:14px;
+    font-weight:500;
+    color:rgba(223,250,255,1);
+    margin-left: 4px;
+    max-width: 400px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+  }
+}
+
+.huling {
+  .table-wrapper{
+    .recordtable {
+      padding: 0 16px;
+      font-size: 12px;
+      float: center;
+      table {
+        margin-top: 13px;
+        width: 100%;
+        thead {
+          width: 100%;
+          text-align: center;
+          tr {        
+            background-color: rgba(38,44,74,.5);
+            color: #4CBDFE !important;
+          }
+        }
+        tr {
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          color: #DFFAFF;
+          border-bottom: 2px solid #2E4970 !important;
+        }
+        tr:first-child {
+          border-bottom: 0 !important;
+        }
+        tr:last-child {
+          border-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.record-wrapper {
+  width: 100%;
+  .haveData {
+    .table-wrapper {
+      .recordtable {
+        padding: 0 16px;
+        font-size: 16px;
+        float: center;
+        table {
+          margin-top: 13px;
+          width: 600px;
+          thead {
+            width: 100%;
+            text-align: center;
+            tr {
+              background-color: rgba(38,44,74,.5);
+              color: #4CBDFE;
+            }
+          }
+          tr {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #DFFAFF;
+            td{
+              &.place{
+                text-align: center;
+                max-width:85px;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+              }
+              &.date{
+                width: 130px;
+              }
+            }
+            .s_yellow{
+              display: inline-block;
+              width: 52px;
+              height: 19px;
+              line-height: 19px;
+              color: #FEDF50;
+              background: rgba(254,223,80,.2);
+              font-size: 10px;
+            }
+            .s_blue {
+              display: inline-block;
+              width: 52px;
+              height: 19px;
+              line-height: 19px;
+              color: #4CBDFE;
+              background: rgba(76,189,254,.2);
+              font-size: 10px;
+            }
+            .s_green {
+              display: inline-block;
+              width: 52px;
+              height: 19px;
+              line-height: 19px;
+              color: #00F7BD;
+              background: rgba(0,247,189,.2);
+              font-size: 10px;
+            }
+            .s_red {
+              display: inline-block;
+              width: 52px;
+              height: 19px;
+              line-height: 19px;
+              color: #FC0C59;
+              background: rgba(252,12,89,.2);
+              font-size: 10px;
+            }
+            .s_gray {
+              display: inline-block;
+              width: 52px;
+              height: 19px;
+              line-height: 19px;
+              color: #909399;
+              background: rgba(144, 147, 153, .2);
+              font-size: 10px;
+            }
+          }
+          tr:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+  .noData{
+    font-size: 20px;
+    text-align: center;
+    color: #DFFAFF;
+    opacity: .8;
+    height: 265px;
+    line-height: 265px;
+  }
+}
+
+// 火灾报警数据统计
+.firecharts-content {
+  align-items: center;
+  padding: 10px 0 10px 0;
+  margin: 0 6px 0 0;
+  font-size: 12px;
+}
+
+// 巡查数据统计样式
+.recordcharts-content {
+  display: -webkit-flex;
+  align-items: center;
+  margin:0 20px;
+  padding: 20px 0;
+}
+
+// 水源数据统计样式
+.watercharts-content {
+  display: -webkit-flex;
+  align-items: center;
+  margin:0 20px;
+  padding: 20px 0;
+}
+
+// 任务统计布局样式
+.taskcharts-content {
+  height: calc(100% - 40px);
+  padding: 10px;
+}
+
