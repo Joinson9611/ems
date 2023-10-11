@@ -1,92 +1,57 @@
 <template>
-  <div class="content-container">
-    <div class="content-left">
-      <div class="content-top">
-        <div class="alarm-wrapper content-item">
-          <div class="title">
-            设备报警/正常
-          </div>
-          <div class="chart">
-            <alarmChart :chart-data="alarm_state" />
-          </div>
-          <div class="alarm-count">
-            <div v-for="(item,key) in alarm_state" :style="{color:item.color}" :key="key" class="count-item" >
-              <div class="label" >
-                {{ item.name }}
+  <div class="home-wrapper">
+    <div class="home-left">
+      <div class="content-wrapper">
+        <div class="count-container">
+          <div class="count">
+            <div class="count-list">
+              <div v-for="(item,key) in count_top" :key="key" class="count-item">
+                <div :style="{backgroundImage:`url(${require(`@/assets/home_images/${item.image}.png`)})`}" class="count-icon"/>
+                <div class="count-number"><count-to :start-val="0" :end-val="item.number" :duration="3600" /></div>
+                <div class="count-name">{{ item.name }}</div>
               </div>
-              <div class="number">
-                {{ item.value }}
+            </div>
+          </div>
+          <div class="count">
+            <div class="count-list">
+              <div v-for="(item,key) in count_bottom" :key="key" class="count-item">
+                <div :style="{backgroundImage:`url(${require(`@/assets/home_images/${item.image}.png`)})`}" class="count-icon"/>
+                <div class="count-number"><count-to :start-val="0" :end-val="item.number" :duration="3600" /></div>
+                <div class="count-name">{{ item.name }}</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="count-wrapper">
-          <div class="count-item content-item">
-            <div class="icon-device">
-              <img src="../../assets/home_images/device.png" alt="">
-            </div>
-            <div class="title" style="margin-left: 90px">
-              设备总数
-            </div>
-            <div class="number">
-              {{ device_count }}
-            </div>
-          </div>
-          <div class="count-item content-item">
-            <div class="icon-member">
-              <img src="../../assets/home_images/member.png" alt="">
-            </div>
-            <div class="title" style="margin-left: 90px">
-              人员总数
-            </div>
-            <div class="number">
-              {{ user_count }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content-bottom content-item">
-        <div class="bg-mask"/>
-        <el-form label-width="80px">
-          <el-form-item label="项目详情" class="dialog-form-item" />
-          <el-form-item label="项目名称:" class="dialog-form-item" >
-            <span>{{ projectInfo.name }}</span>
-          </el-form-item>
-          <el-form-item label="项目地址:" class="dialog-form-item" >
-            <span>{{ projectInfo.address }}</span>
-          </el-form-item>
-          <el-form-item label="项目描述:" class="dialog-form-item" >
-            <span>{{ projectInfo.label }}</span>
-          </el-form-item>
-        </el-form>
       </div>
     </div>
-    <div class="content-right">
-      <div v-for="(item,key) in alarmDeviceList" :key="key" class="alarm-item">
-        <div class="inner-content">
-          <div class="header">
-            <div class="img-wrapper">
-              <img :src="require(`../../assets/home_images/${item.device_type_id}.png`)" >
+    <div class="home-right">
+      <div class="top">
+        <div class="content-wrapper">
+          <img :src="logoImage" alt="" @error="logoImgError">
+        </div>
+      </div>
+      <div class="middle">
+        <div :style="{backgroundImage:`url(${require('@/assets/home_images/member.png')})`}" class="content-wrapper">
+          <div class="title">
+            人员数量
+          </div>
+          <div class="number">
+            <count-to :start-val="0" :end-val="member_count" :duration="3600" class="number"/>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <div :style="{backgroundImage:`url(${require('@/assets/home_images/project .png')})`}" class="content-wrapper">
+          <div class="title">
+            项目详情
+          </div>
+          <div :style="{backgroundImage:`url(${require('@/assets/home_images/project-right-bottom.png')})`}" class="right-bottom-icon"/>
+          <div class="project">
+            <div class="project-name">
+              {{ project_info.project_name }}
             </div>
-          </div>
-          <div class="title-name">
-            {{ getTypeName(item.device_type_id) }}
-          </div>
-          <div class="normal">
-            正常<span>
-              <count-to v-if="item.device_type_id !== 104" :start-val="0" :end-val="item.count.total - item.count.alarm_count" :duration="3600" />
-              <count-to v-else :start-val="0" :end-val="item.count.total - item.count.c_count - item.count.t_count" :duration="3600" />
-            </span>
-          </div>
-          <div class="bottom">
-            <div class="alarm">
-              报警<span>
-                <count-to v-if="item.device_type_id !== 104" :start-val="0" :end-val="item.count.alarm_count" :duration="3600" />
-                <count-to v-else :start-val="0" :end-val="item.count.c_count + item.count.t_count" :duration="3600" />
-              </span>
-            </div>
-            <div class="offline">
-              离线<span><count-to :start-val="0" :end-val="item.count.offline_count" :duration="3600" /></span>
+            <div class="project-address">
+              <svgIcon style="font-size: 16px" icon-class="address"/>{{ project_info.project_address }}
             </div>
           </div>
         </div>
@@ -96,285 +61,245 @@
 </template>
 
 <script>
-import { homepage } from '@/api/homepage.js'
-import { getProjectInfo } from '@/api/project.js'
-import { mapGetters } from 'vuex'
-import alarmChart from './components/alarmChart'
+import { getHomeCount } from '@/api/index'
+import { getProjectInfo } from '@/api/project'
+import svgIcon from '@/components/SvgIcon'
 import CountTo from 'vue-count-to'
+import { mapGetters } from 'vuex'
 export default {
   components: {
-    alarmChart,
-    CountTo
+    CountTo,
+    svgIcon
   },
   data() {
     return {
-      alarm_state: [
-        { name: '设备报警', value: 0, per: 0, color: '#ea263d' },
-        { name: '设备正常', value: 0, per: 0, color: '#28ce9f' }
-      ],
-      user_count: 0,
-      device_count: 0,
-      alarmDeviceList: [],
-      projectInfo: {
-        name: '',
-        label: '',
-        address: ''
+      count_list: [{}, {}, {}],
+      count_top: [{
+        image: 'gateway',
+        name: '网关总数',
+        number: 0
+      }, {
+        image: 'controller',
+        name: '控制器总数',
+        number: 0
+      }, {
+        image: 'switch',
+        name: '开关总数',
+        number: 0
+      }],
+      count_bottom: [{
+        image: 'senor',
+        name: '传感器总数',
+        number: 0
+      },
 
+      {
+        image: 'scene',
+        name: '场景控制总数',
+        number: 0
+      }, {
+        image: 'timer',
+        name: '定时控制总数',
+        number: 0
+      }],
+      // 人员数量
+      member_count: 0,
+      project_info: {
+        project_name: undefined,
+        project_address: undefined
       }
     }
   },
   computed: {
-    ...mapGetters(['selected_project_id'])
+    ...mapGetters([
+      'selected_project_id'
+    ]),
+    logoImage() {
+      return process.env.FILE_URL + `/image/project_image/${this.selected_project_id}.png` + '?t=' + (+new Date())
+    }
   },
+
   created() {
-    this.getHomepage()
+    this.getHomeCount()
     this.getProjectInfo()
   },
+  mounted() {
+    console.log(this.isHasImg(this.logoImage))
+  },
   methods: {
-    getTypeName(typeId) {
-      switch (typeId + '') {
-        case '51':
-          return '无线烟感'
-        case '101':
-          return '水位监测模块'
-        case '102':
-          return '水压监测模块'
-        case '103':
-          return '水浸监测模块'
-        case '104':
-          return '电气火灾模块'
-        case '201':
-          return 'AI火灾识别'
-        case '202':
-          return 'AI消防通道'
-        case '203':
-          return 'AI电梯'
-        case '204':
-          return 'AI监护'
-        case '301':
-          return 'WIFI烟感'
-        case '302':
-          return '可燃气体探测器'
-        case '303':
-          return '红外双鉴探测器'
-      }
+
+    logoImgError(event) {
+      const img = event.srcElement
+      img.src = process.env.FILE_URL + '/image/project_image/0.png'
+      img.onerror = null
     },
-    getPercentage(num, total) {
-      if (total === 0) {
-        return 0
-      } else {
-        const per = num / total
-        if ([0, 1].includes(per)) {
-          return per * 100
-        } else {
-          return (per * 100).toFixed(2)
-        }
-      }
+    getHomeCount() {
+      getHomeCount({ project_id: this.selected_project_id }).then(({ data }) => {
+        this.count_top[0].number = data.gatewayCount || 0
+        this.count_top[1].number = data.deviceCount || 0
+        this.count_top[2].number = data.switchCount || 0
+        this.count_bottom[0].number = data.sensorCount || 0
+        this.count_bottom[1].number = data.sceneCount || 0
+        this.count_bottom[2].number = data.timerCount || 0
+        this.member_count = data.memberCount || 0
+      }).catch(() => {})
     },
     getProjectInfo() {
       getProjectInfo({ project_id: this.selected_project_id }).then(res => {
-        this.projectInfo = res.data
-      })
-    },
-    getHomepage() {
-      homepage({ project_id: this.selected_project_id }).then(res => {
-        const { total, alarm_count, user_count } = res.data.header
-        const normal_count = total - alarm_count
-        this.alarm_state[0].per = this.getPercentage(alarm_count, total)
-        this.alarm_state[1].per = this.getPercentage(normal_count, total)
-        this.alarm_state[0].value = alarm_count
-        this.alarm_state[1].value = normal_count
-        this.user_count = user_count
-        this.device_count = total
-        this.alarmDeviceList = res.data.items
-        console.log(this.alarmDeviceList)
+        this.project_info.project_name = res.data.name
+        this.project_info.project_address = res.data.address
       }).catch(() => {})
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-  $margin: 10px;
-  .content-container {
-    background-color: #f0f2f5;
-    height: calc(100vh - 50px);
-    padding: 10px;
-    padding-right: 0;
+<style lang="scss" scoped>
+  $box-padding: 15px;
+  .home-wrapper {
+    overflow: auto;
     display: flex;
-    /deep/.el-form-item__label {
-      color: #fff;
-    }
-    /deep/.el-form-item__content {
-      color: #fff;
-    }
-    /deep/.el-form {
-      position: absolute;
-      z-index: 9999;
-    }
-    .content-item {
-      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-      border-radius: 4px;
-      padding: 10px;
-      background-color: #fff;
-      flex: 1;
+    flex-direction: row;
+    padding: 20px;
+    padding-left: 0;
+    height: calc(100vh - 50px);
+    background-color: #009a76;
+    font-family: "STHeiti";
+    .content-wrapper {
+      overflow: hidden;
+      height: 100%;
+      box-shadow: 0 2px 12px 0 rgba(97, 67, 67, 0.1);
+      border-radius: 10px;
+      position: relative;
+      background-size: 100% 100%;
+      background-color: white;
+      display: flex;
+      // height: 240px;
       .title {
+        position: absolute;
+        top: 15px;
+        left: 15px;
         font-size: 14px;
-        color: #3d44c0;
+        color: #009a76;
+      }
+
+      .number {
+        color: #009a76;
+        font-size: 30px;
+        margin-left: 15px;
+        align-self: center;
+      }
+      .right-bottom-icon {
+        position: absolute;
+        right: 20px;
+        width: 204px;
+        height: 147px;
+        bottom: 20px;
+        background-size: 100% 100%;
+      }
+      .project {
+        position: absolute;
+        // padding: 0 20px;
+        top: 40px;
+        left: 15px;
+        color: #009a76;
+        .project-name {
+          max-width: 260px;
+          word-break: break-word;
+          font-size: 22px;
+          margin-bottom: 10px;
+        }
+        .project-address {
+          line-height: 24px;
+          font-size: 18px;
+          max-width: 260px;
+          word-break: break-all;
+        }
+      }
+
+      .count-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 20px;
+        .count {
+          display: flex;
+          align-items: center;
+          margin: 0 20px;
+          border-bottom: 1px dashed #009a76;
+          height: 50%;
+          width: 100%;
+          &:last-child {
+            border-bottom: none;
+          }
+          .count-list {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            .count-item {
+              position: relative;
+              flex: 1;
+              display: flex;
+              color: #009a76;
+              flex-direction: column;
+              align-items: center;
+              &::after {
+                position: absolute;
+                top:0;
+                height: 80%;
+                right:0;
+                content: '';
+                width: 0;
+                border-right: solid #009a76 1px;
+              }
+              &:last-child::after{
+                border-right: none;
+              }
+              .count-icon {
+                width: 60px;
+                height: 60px;
+                background-size: 100% 100%;
+              }
+              .count-number {
+                font-size: 26px;
+                margin-top: 30px;
+                margin-bottom: 10px;
+              }
+
+              .count-name {
+                font-size: 20px;
+              }
+            }
+          }
+        }
       }
     }
-    .content-left {
+    .home-left {
+      height: 100%;
+      flex: 1;
+      margin-right: 20px;
+    }
+    .home-right {
+      height: 100%;
+      flex: 0 0 360px;
       display: flex;
       flex-direction: column;
-      flex: 0 0 500px;
-      margin-right: $margin;
-      .content-top {
-        display: flex;
-        flex: 0 0 300px;
-        margin-bottom: $margin;
-        .alarm-wrapper {
-          flex: 1;
-          margin-right: $margin;
-          .chart {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            width: 100%;
-            height: 200px;
-          }
-          .alarm-count {
-            display: flex;
-            .count-item {
-              flex: 1;
-              text-align: center;
-              .label {
-                margin-bottom: 5px;
-              }
-              .number {
-                font-size: 22px;
-              }
-            }
-          }
-        }
-        .count-wrapper {
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-          .count-item {
-            position: relative;
-            flex: 1;
-            margin-bottom: $margin;
-            .icon-device,.icon-member {
-              position: absolute;
-              height: 100%;
-              top: 0;
-              left: 0;
-              border-top-left-radius: 4px;
-              border-bottom-left-radius: 4px;
-              width: 90px;
-              background: #3d44c0;
-              img {
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translate(0,-50%);
-                width: 50px;
-                height: 80px;
-              }
-            }
-            .number {
-              color: #3d44c0;
-              font-size: 30px;
-              position: absolute;
-              top: 43%;
-              // transform:translateY(-50%);
-              left: 100px;
-            }
-            &:last-child {
-              margin: 0;
-            }
-          }
-        }
-      }
-      .content-bottom {
+      .top {
         position: relative;
-        background-size: 100% 100%;
-        background-image: url('~@/assets/home_images/building.png');
-        .bg-mask {
-          border-radius: 4px;
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(61,68,192,.8);
-        }
-      }
-    }
-    .content-right {
-      overflow: auto;
-      display: flex;
-      flex: 1;
-      align-content: flex-start;
-      flex-wrap: wrap;
-      .alarm-item {
-        position: relative;
-        height: 230px;
-        flex:0 0 33.3%;
-        .inner-content {
-          background: #fff;
-          border-radius: 4px;
-          box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-          padding: 15px;
-          position: absolute;
-          top: 0px;
-          bottom: 10px;
-          left: 0px;
-          right: 10px;
-          .header {
-            .img-wrapper {
-              width: 60px;
-              height: 60px;
-              img {
-                width: 100%;
-                height: 100%;
-              }
-            }
-          }
-          .title-name {
-            font-size: 18px;
-            margin-top: 5px;
-          }
-          .normal {
-            margin-top: 8px;
-            color: #28ce9f;
-            span {
-              display: inline-block;
-              float: right;
-            }
-          }
-          .bottom {
-            margin-top: 40px;
-            .alarm {
-              margin-bottom: 10px;
-              color: #ea263d;
-              span {
-                display: inline-block;
-                float: right;
-              }
-            }
-            .offline {
-              color: black;
-              span {
-                display: inline-block;
-                float: right;
-              }
-            }
-          }
-        }
-        // &:nth-child(3n) {
-        //   margin-right: 0;
+        // padding-bottom: 30%;
+        flex: 0 0 100px;
+        margin-bottom: 20px;
+        // .logo-image {
+        //   width: 100%;
         // }
+      }
+      .middle {
+        flex: 0 0 200px;
+        margin-bottom: 20px;
+      }
+      .bottom {
+        flex: 1;
       }
     }
   }

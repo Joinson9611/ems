@@ -19,9 +19,9 @@ function hasPermission(roles, route) {
  * @param routes asyncRouterMap 异步加载的路由表
  * @param roles 用户登录返回的权限组
  */
+
 function filterAsyncRouter(routes, roles) {
   const res = []
-
   routes.forEach(route => {
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
@@ -48,8 +48,8 @@ const permission = {
       state.routers = constantRouterMap.concat(routers)
     },
     REMOVE_ROUTERS: (state) => {
-      state.addRouters = ''
       state.routers = constantRouterMap
+      state.addRouters = ''
     }
   },
 

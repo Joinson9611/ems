@@ -23,11 +23,11 @@ import PlatformLayout from '@/views/platformlayout/PlatformLayout'
     breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
   }
 **/
+
 export const constantRouterMap = [
-  { path: '/test', component: () => import('../views/test/test.vue'), hidden: true },
+  { path: '/test', component: () => import('../views/test/index.vue'), hidden: true },
   { path: '/login', component: () => import('../views/login/index'), hidden: true },
   { path: '/404', component: () => import('../views/404'), hidden: true },
-
   {
     path: '/platform',
     component: PlatformLayout,
@@ -41,12 +41,13 @@ export const constantRouterMap = [
       path: 'newproject',
       component: () => import('@/views/platform/newproject')
     },
+
     {
       path: 'mangment',
       component: () => import('@/views/platform/mangment')
-    }]
+    }
+    ]
   },
-
   {
     path: '/userinfo',
     component: Layout,
@@ -60,6 +61,23 @@ export const constantRouterMap = [
         name: 'Password',
         meta: {
           title: '密码修改'
+        }
+      }
+    ]
+  },
+  {
+    path: '/fullscreen',
+    component: Layout,
+    name: 'platformSetting',
+    redirect: 'noredirect',
+    hidden: true,
+    children: [
+      {
+        path: 'setting',
+        component: () => import('@/views/platformSetting'),
+        name: 'setting',
+        meta: {
+          title: '大屏设置'
         }
       }
     ]
@@ -80,8 +98,20 @@ export const constantRouterMap = [
     }]
   }
 ]
-
 export const asyncRouterMap = [
+  {
+    path: '/ctrl',
+    name: 'ctrl',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/ctrl/index'),
+        meta: { title: '灯光控制', icon: 'ctrl' }
+      }
+    ]
+  },
   {
     path: '/project',
     component: Layout,
@@ -103,255 +133,137 @@ export const asyncRouterMap = [
         path: 'recordperation',
         name: 'project_recordperation',
         component: () => import('@/views/project/recordperation'),
-        meta: { title: '操作日志', icon: 'recordperation', roles: ['10101'] }
+        meta: { title: '操作日志', icon: 'recordperation', roles: ['481'] }
       }
     ]
   },
+
   {
-    path: '/devices',
+    path: '/device',
+    name: 'device',
     component: Layout,
     redirect: 'noredirect',
-    name: 'Devices',
-    alwaysShow: true,
     meta: {
       title: '设备管理',
       icon: 'devices',
-      roles: ['10061']
+      roles: ['191', '301', '311', '321', '331']
     },
     children: [
       {
-        path: 'smoke',
-        name: 'smoke',
-        component: () => import('@/views/devices/smoke'),
-        meta: { title: '无线烟感', icon: 'smoke', roles: ['51'] }
+        path: 'building',
+        name: 'building',
+        component: () => import('@/views/building/index'),
+        meta: { title: '建筑管理', icon: 'building', roles: ['191'] }
       },
       {
-        path: 'waterline',
-        name: 'waterline',
-        component: () => import('@/views/devices/waterline'),
-        meta: { title: '水位监测模块', icon: 'waterLine', roles: ['101'] }
+        path: 'gateways',
+        name: 'gateways',
+        component: () => import('@/views/devices/gateways'),
+        meta: { title: '网关管理', icon: 'gateways', roles: ['301'] }
       },
       {
-        path: 'waterpressure',
-        name: 'waterpressure',
-        component: () => import('@/views/devices/waterpressure'),
-        meta: { title: '水压监测模块', icon: 'waterPressure', roles: ['102'] }
+        path: 'controller',
+        name: 'controller',
+        component: () => import('@/views/devices/device'),
+        meta: { title: '设备管理', icon: 'controller', roles: ['311'] }
       },
       {
-        path: 'waterlogging',
-        name: 'waterlogging',
-        component: () => import('@/views/devices/waterlogging'),
-        meta: { title: '水浸监测模块', icon: 'water2', roles: ['103'] }
+        path: 'senor',
+        name: 'senor',
+        component: () => import('@/views/devices/senor'),
+        meta: { title: '传感器管理', icon: 'senor', roles: ['311'] }
       },
       {
-        path: 'electricalfire',
-        name: 'electricalfire',
-        component: () => import('@/views/devices/electricalfire'),
-        meta: { title: '电气火灾模块', icon: 'electricalfire', roles: ['104'] }
+        path: 'group',
+        name: 'group',
+        component: () => import('@/views/devices/group'),
+        meta: { title: '组管理', icon: 'group', roles: ['321'] }
       },
       {
-        path: 'firerecognition',
-        name: 'firerecognition',
-        component: () => import('@/views/devices/firerecognition'),
-        meta: { title: 'AI火灾识别', icon: 'fire', roles: ['201'] }
+        path: 'switch',
+        name: 'switch',
+        component: () => import('@/views/devices/switch'),
+        meta: { title: '开关绑定', icon: 'switch', roles: ['331'] }
+      }
+    ]
+  },
+
+  {
+    path: '/scene',
+    name: 'scene',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      title: '场景管理',
+      icon: 'devices',
+      roles: ['341', '343']
+    },
+    children: [
+      {
+        path: 'management',
+        name: 'management',
+        component: () => import('@/views/scene/management/index'),
+        meta: { title: '场景管理', icon: 'scene', roles: ['341'] }
       },
       {
-        path: 'fireaccess',
-        name: 'fireaccess',
-        component: () => import('@/views/devices/fireaccess'),
-        meta: { title: 'AI消防通道', icon: 'fireaccess', roles: ['202'] }
-      },
+        path: 'distribution',
+        name: 'distribution',
+        component: () => import('@/views/scene/distribution/index'),
+        meta: { title: '场景分配', icon: 'distribution', roles: ['343'] }
+      }
+    ]
+  },
+
+  {
+    path: '/time',
+    name: 'time',
+    component: Layout,
+    children: [
       {
-        path: 'elevatormonitoring',
-        name: 'elevatormonitoring',
-        component: () => import('@/views/devices/elevatormonitoring'),
-        meta: { title: 'AI电梯监视', icon: 'elevator', roles: ['203'] }
-      },
-      {
-        path: 'keypart',
-        name: 'keypart',
-        component: () => import('@/views/devices/keypart'),
-        meta: { title: 'AI监护', icon: 'keypart', roles: ['204'] }
-      },
-      {
-        path: 'WIFIsmoke',
-        name: 'WIFIsmoke',
-        component: () => import('@/views/devices/WIFIsmoke'),
-        meta: { title: 'WIFI烟感', icon: 'WIFIsmoke', roles: ['301'] }
-      },
-      {
-        path: 'gasdetector',
-        name: 'gasdetector',
-        component: () => import('@/views/devices/gasdetector'),
-        meta: { title: '可燃气体探测器', icon: 'gasdetector', roles: ['302'] }
-      },
-      {
-        path: 'infrareddetector',
-        name: 'infrareddetector',
-        component: () => import('@/views/devices/infrareddetector'),
-        meta: { title: '红外双鉴探测器', icon: 'infrareddetector', roles: ['303'] }
+        path: 'timer',
+        name: 'timer',
+        component: () => import('@/views/timer/index'),
+        meta: { title: '定时管理', icon: 'timer', roles: ['351'] }
       }
     ]
   },
   {
-    path: '/devrecord',
+    path: '/automation',
+    name: 'automation',
     component: Layout,
-    redirect: 'noredirect',
-    name: 'devrecord',
-    alwaysShow: true,
-    meta: {
-      title: '设备记录',
-      icon: 'devrecord'
-    },
     children: [
       {
-        path: 'smoke',
-        name: 'smoke',
-        component: () => import('@/views/devrecord/smoke/index'),
-        meta: { title: '无线烟感', icon: 'smoke', roles: ['51'] }
+        path: 'management',
+        name: 'management',
+        component: () => import('@/views/automation/index'),
+        meta: { title: '自动化管理', icon: 'automations', roles: ['371'] }
+      }
+    ]
+  },
+
+  {
+    path: '/config',
+    name: 'config',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      title: '配置下发',
+      icon: 'config',
+      roles: ['361']
+    },
+
+    children: [
+      {
+        path: 'switch',
+        name: 'switch',
+        component: () => import('@/views/config/switch.vue'),
+        meta: { title: '开关', icon: 'switch', type: 0 }
       },
       {
-        path: 'smokeDetail',
-        name: 'smoke_detail',
-        hidden: true,
-        component: () => import('@/views/devrecord/smoke/components/deviceNBs'),
-        meta: { title: '无线烟感设备详情' }
-      },
-      {
-        path: 'waterline',
-        name: 'waterline',
-        component: () => import('@/views/devrecord/waterline/index'),
-        meta: { title: '水位监测模块', icon: 'waterLine', roles: ['101'] }
-      },
-      {
-        path: 'waterpressure',
-        name: 'waterpressure',
-        component: () => import('@/views/devrecord/waterpressure/index'),
-        meta: { title: '水压监测模块', icon: 'waterPressure', roles: ['102'] }
-      },
-      {
-        path: 'waterDetail',
-        name: 'waterDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/components/devicewaters'),
-        meta: { title: '设备详情' }
-      },
-      {
-        path: 'waterlogging',
-        name: 'waterlogging',
-        component: () => import('@/views/devrecord/waterlogging/index'),
-        meta: { title: '水浸监测模块', icon: 'water2', roles: ['103'] }
-      },
-      {
-        path: 'waterDetail2',
-        name: 'water_detail2',
-        hidden: true,
-        component: () => import('@/views/devrecord/waterlogging/components/devicewaters'),
-        meta: { title: '水浸设备详情' }
-      },
-      {
-        path: 'electricalfire',
-        name: 'electricalfire',
-        component: () => import('@/views/devrecord/electricalfire/index'),
-        meta: { title: '电气火灾模块', icon: 'electricalfire', roles: ['104'] }
-      },
-      {
-        path: 'elefireDetail',
-        name: 'elefireDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/electricalfire/components/deviceefs'),
-        meta: { title: '电气火灾模块详情' }
-      },
-      {
-        path: 'firerecognition',
-        name: 'firerecognition',
-        component: () => import('@/views/devrecord/firerecognition/index'),
-        meta: { title: 'AI火灾识别', icon: 'fire', roles: ['201'] }
-      },
-      {
-        path: 'firerecDetail',
-        name: 'firerecDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/firerecognition/components/device'),
-        meta: { title: 'AI火灾识别详情' }
-      },
-      {
-        path: 'fireaccess',
-        name: 'fireaccess',
-        component: () => import('@/views/devrecord/fireaccess/index'),
-        meta: { title: 'AI消防通道', icon: 'fireaccess', roles: ['202'] }
-      },
-      {
-        path: 'fireaccDetail',
-        name: 'fireaccDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/fireaccess/components/device'),
-        meta: { title: 'AI消防通道详情' }
-      },
-      {
-        path: 'elevatormonitoring',
-        name: 'elevatormonitoring',
-        component: () => import('@/views/devrecord/elevatormonitoring/index'),
-        meta: { title: 'AI电梯监视', icon: 'elevator', roles: ['203'] }
-      },
-      {
-        path: 'elemonDetail',
-        name: 'elemonDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/elevatormonitoring/components/device'),
-        meta: { title: 'AI电梯监视详情' }
-      },
-      {
-        path: 'keypart',
-        name: 'keypart',
-        component: () => import('@/views/devrecord/keypart/index'),
-        meta: { title: 'AI监护', icon: 'keypart', roles: ['204'] }
-      },
-      {
-        path: 'keypartDetail',
-        name: 'keypartDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/keypart/components/device'),
-        meta: { title: 'AI监护详情' }
-      },
-      {
-        path: 'WIFIsmoke',
-        name: 'WIFIsmoke',
-        component: () => import('@/views/devrecord/WIFIsmoke/index'),
-        meta: { title: 'WIFI烟感', icon: 'WIFIsmoke', roles: ['301'] }
-      },
-      {
-        path: 'WIFIsmokeDetail',
-        name: 'WIFIsmokeDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/WIFIsmoke/components/device'),
-        meta: { title: 'WIFI烟感详情' }
-      },
-      {
-        path: 'gasdetector',
-        name: 'gasdetector',
-        component: () => import('@/views/devrecord/gasdetector/index'),
-        meta: { title: '可燃气体探测器', icon: 'gasdetector', roles: ['302'] }
-      },
-      {
-        path: 'gasdetDetail',
-        name: 'gasdetDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/gasdetector/components/device'),
-        meta: { title: '可燃气体探测器详情' }
-      },
-      {
-        path: 'infrareddetector',
-        name: 'infrareddetector',
-        component: () => import('@/views/devrecord/infrareddetector/index'),
-        meta: { title: '红外双鉴探测器', icon: 'infrareddetector', roles: ['303'] }
-      },
-      {
-        path: 'infdetDetail',
-        name: 'infdetDetail',
-        hidden: true,
-        component: () => import('@/views/devrecord/infrareddetector/components/device'),
-        meta: { title: '红外双鉴探测器详情' }
+        path: 'device',
+        name: 'device',
+        component: () => import('@/views/config/device.vue'),
+        meta: { title: '控制器', icon: 'devices', type: 1 }
       }
     ]
   },

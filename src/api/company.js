@@ -67,7 +67,7 @@ export function getCompanyByUser(params) {
 // 获取项目相关的单位列表
 export function getProjectCompany(params) {
   return request({
-    url: '/companys/index4',
+    url: '/companys/menu',
     method: 'post',
     data: qs.stringify(params)
   })

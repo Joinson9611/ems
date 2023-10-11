@@ -10,7 +10,6 @@ const whiteList = ['/login', '/tasks/devices', '/app/download', '/taskcr/general
 router.beforeEach((to, from, next) => {
   NProgress.start()
   // 判断是否已有token（是否已登录）
-
   if (getToken()) {
     if (to.path === '/login') {
       // 用户已登录的情况下，to路由指向登录页面时，直接跳往主页

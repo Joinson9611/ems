@@ -1,56 +1,40 @@
 <template>
   <div class="login-container">
-    <vue-particles
-      :particle-opacity="0.8"
-      :particles-number="80"
-      :particle-size="4"
-      :lines-width="2"
-      :line-linked="true"
-      :line-opacity="0.4"
-      :lines-distance="150"
-      :move-speed="2"
-      :hover-effect="true"
-      :click-effect="true"
-      color="#3d44c0"
-      shape-type="circle"
-      lines-color="#3d44c0"
-      hover-mode="grab"
-      click-mode="push"
-      class="particles"
-    />
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">欢迎登录开拓灯控系统</h3>
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="请输入用户账号" />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input :type="pwdType" v-model="loginForm.password" name="password" auto-complete="on" placeholder="请输入用户密码" @keyup.enter.native="handleLogin" />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-      <el-form-item v-if="isIndentifyEnabel" prop="indentifyCode">
-        <span class="svg-container">
-          <svg-icon icon-class="identify" />
-        </span>
-        <el-input v-model="loginForm.indentifyCode" class="identify-input" type="text" auto-complete="on" placeholder="请输入验证码"/>
-        <span class="identify-container" @click="refreshCode">
-          <Identify :identify-code="identifyCode"/>
-        </span>
-      </el-form-item>
-      <el-button v-waves :loading="loading" type="primary" style="width:100%;height: 47px;" plain class="sub-btn sub2" @click.native.prevent="handleLogin">
-        登 录
-      </el-button>
-    </el-form>
-    <div class="footer">
-      <span>Copyright ©2022 开拓网络 All Rights Reserved</span> <a href="https://beian.miit.gov.cn" target="_blank" >粤ICP备16092185号</a>
+    <div class="login-wrapper">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+        <h3 class="title">灯光智控系统</h3>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="请输入用户账号" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input :type="pwdType" v-model="loginForm.password" name="password" auto-complete="on" placeholder="请输入用户密码" @keyup.enter.native="handleLogin" />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <el-form-item v-if="isIndentifyEnabel" prop="indentifyCode">
+          <span class="svg-container">
+            <svg-icon icon-class="identify" />
+          </span>
+          <el-input v-model="loginForm.indentifyCode" class="identify-input" type="text" auto-complete="on" placeholder="请输入验证码"/>
+          <span class="identify-container" @click="refreshCode">
+            <Identify :identify-code="identifyCode"/>
+          </span>
+        </el-form-item>
+        <el-button v-waves :loading="loading" type="primary" style="width:100%;height: 47px;" class="sub-btn sub2" @click.native.prevent="handleLogin">
+          登 录
+        </el-button>
+      </el-form>
     </div>
+    <!-- <div class="footer">
+      <span>Copyright ©2022 开拓网络 All Rights Reserved</span> <a href="https://beian.miit.gov.cn" target="_blank" >粤ICP备16092185号</a>
+    </div> -->
   </div>
 </template>
 
@@ -203,9 +187,8 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
+$bg:#00927a;
 $light_gray:#eee;
-
 .identify-input{
   display: inline-block;
   height: 47px;
@@ -227,6 +210,7 @@ $light_gray:#eee;
 
 /* reset element-ui css */
 .login-container {
+
   .el-input {
     display: inline-block;
     height: 47px;
@@ -256,7 +240,7 @@ $light_gray:#eee;
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#3cc981;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 .login-container {
@@ -266,28 +250,23 @@ $light_gray:#eee;
   align-items: center;
   height: 100%;
   width: 100%;
-  // background-color: #000b32;
-  background-image: url('../../assets/login_images/bg.jpg');
+  background-image: url('~@/assets/login_images/bg.jpg');
   background-size: cover;
-  background-position: center;
-  .particles {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-  }
-  .login-form {
+  .login-wrapper {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 460px;
     max-width: 100%;
-    padding: 35px 35px 15px 35px;
+    padding: 35px;
     z-index: 20;
+    box-shadow:0px -8px 18px rgba(0,0,0,.2);
+    border-radius: 10px;
+    // -moz-box-shadow:0px -5px 18px #333333;
+    // -webkit-box-shadow:0px -5px 18px #333333;
   }
+
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -295,6 +274,7 @@ $light_gray:#eee;
     width: 30px;
     display: inline-block;
   }
+
   .identify-container {
     position: absolute;
     right: 6px;
@@ -302,6 +282,7 @@ $light_gray:#eee;
     display: inline-block;
     vertical-align: middle;
   }
+
   .title {
     font-size: 26px;
     font-weight: 400;
@@ -319,19 +300,20 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+
   .sub2{
     margin-top: 15px;
     font-size: 16px;
     border-radius: 10px;
-    color: #4194f6;
-    background: none;
-    border: 1px solid #4194f6;
+    color: #0e5847;
+    font-weight: bold;
+    background: #c2e9e1;
   }
-  .sub2:active {
-    color: #FFF;
-    background: #3a8ee6;
-    border-color: #3a8ee6;
-  }
+  // .sub2:active {
+  //   color: #FFF;
+  //   background: #3a8ee6;
+  //   border-color: #3a8ee6;
+  // }
   .footer {
     line-height: 50px;
     font-size: 12px;

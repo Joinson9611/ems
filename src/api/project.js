@@ -72,12 +72,10 @@ export function addProject(params) {
   })
 }
 
-// 项目设置(大屏设置)
-export function projectSetting(data) {
+export function uploadLogoImage(data) {
   return request({
-    url: '/projects/setting',
+    url: '/projects/uploadimage',
     method: 'post',
     data
   })
 }
-

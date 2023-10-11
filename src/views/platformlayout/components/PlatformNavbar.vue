@@ -2,7 +2,7 @@
   <div class="navbar">
     <div class="left-menu">
       <template>
-        <span class="left-menu-item hover-effect" @click="toProjects">开拓灯控系统</span>
+        <span class="left-menu-item hover-effect" @click="toProjects">灯光智控系统</span>
       </template>
     </div>
     <div class="right-menu">
@@ -13,6 +13,7 @@
           </div> -->
           <span class="username-item">{{ nick_name }}</span>
         </div>
+
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <el-dropdown-item>
             <span style="display:block;" @click="logout">退出登录</span>
@@ -63,6 +64,7 @@ export default {
     toProjects() {
       this.$router.push({ path: '/platform/projects' })
     }
+
   }
 }
 </script>
@@ -74,6 +76,7 @@ export default {
     width: 100%;
     height: 50px;
     line-height: 50px;
+    // background-color: #71f08e;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04);
     z-index: 998;
     .left-menu {
@@ -81,7 +84,6 @@ export default {
       height: 100%;
       line-height: 50px;
       margin-left: 20px;
-
       &:focus {
         outline: none;
       }

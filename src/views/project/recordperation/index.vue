@@ -5,6 +5,7 @@
       :data="list"
       element-loading-text="Loading"
       style="width: 100%;"
+      border
       fit
       highlight-current-row>
       <el-table-column align="center" label="操作类型">
@@ -28,7 +29,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!--页码导航-->
     <pagination v-show="total>0" :total="total" :page.sync="paramGetList.page" :limit.sync="paramGetList.limit" @pagination="getRecordOperations" />
   </div>

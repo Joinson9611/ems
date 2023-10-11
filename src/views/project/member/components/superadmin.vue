@@ -3,15 +3,15 @@
   <div style="margin-top: 10px">
     <div>
       <div class="filter-container">
-        <el-button v-waves :size="size" class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-plus" @click="openDialogMemberAdd">添加人员</el-button>
-        <!--删除按钮-->
-        <el-button v-waves :size="size" :disabled="multipleSelection.length===0" class="filter-item" type="danger" icon="el-icon-delete" @click="onDeleteMembers">删除人员</el-button>
+        <el-button v-waves class="filter-item" style="margin-left: 10px" type="primary" icon="el-icon-plus" @click="openDialogMemberAdd">添加人员</el-button>
+        <el-button v-waves :disabled="multipleSelection.length===0" class="filter-item" type="danger" icon="el-icon-delete" @click="onDeleteMembers">删除人员</el-button>
       </div>
       <el-table
         v-loading="isMemberListLoadingShow"
         :data="memberList"
         element-loading-text="加载中"
         style="width:100%;"
+        border
         fit
         highlight-current-row
         @selection-change="handleSelectionChange">
@@ -43,17 +43,12 @@
             <span>{{ getTime(scope.row.available_time) }}</span>
           </template>
         </el-table-column>
-
       </el-table>
-
-      <!--页码导航-->
       <pagination v-show="total>0" :total="total" :page.sync="resquestGetMember.page" :limit.sync="resquestGetMember.limit" @pagination="getMemberList" />
     </div>
-
     <!--弹出新建窗口-->
     <el-dialog :visible.sync="dialogAddVisible" :append-to-body="true" :close-on-click-modal="false" title="新建成员">
       <el-form ref="formAddCompanyMember" :model="requestAddCompanyMember" :rules="CompanyMemberInfoRules" label-width="120px">
-        <!--单位名称-->
         <el-form-item label="用户姓名" class="dialog-form-item" prop="u_nickname">
           <el-input v-model="requestAddCompanyMember.u_nickname" type="text"/>
         </el-form-item>
@@ -68,7 +63,7 @@
         </el-form-item>
         <!--有效时间-->
         <el-form-item label="有效期" class="dialog-form-item" prop="u_available_time">
-          <el-date-picker v-model="requestAddCompanyMember.u_available_time" type="date" value-format="timestamp" placeholder="请选择有效期"/>
+          <el-date-picker v-model="requestAddCompanyMember.u_available_time" type="datetime" placeholder="请选择有效期"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-right: 20px;margin-top: 0;">
@@ -76,11 +71,9 @@
         <el-button v-waves :loading="isButtonAddLoading" type="primary" @click.native="onMemberAdd">确定</el-button>
       </div>
     </el-dialog>
-
     <!--弹出编辑窗口-->
     <el-dialog :visible.sync="dialogEditVisible" :append-to-body="true" :close-on-click-modal="false" title="编辑">
       <el-form ref="formEditCompanyMember" :model="requestEditCompanyMember" :rules="CompanyMemberInfoRules" label-width="120px">
-        <!--单位名称-->
         <el-form-item label="用户姓名" class="dialog-form-item" prop="u_nickname">
           <el-input v-model="requestEditCompanyMember.u_nickname" :disabled="isTheSameLevel" type="text"/>
         </el-form-item>
@@ -93,9 +86,13 @@
         <el-form-item label="用户备注" class="dialog-form-item" prop="u_note">
           <el-input v-model="requestEditCompanyMember.u_note" :disabled="isTheSameLevel" type="textarea"/>
         </el-form-item>
-        <!--有效时间-->
         <el-form-item label="有效期" class="dialog-form-item" prop="u_available_time">
-          <el-date-picker v-model="requestEditCompanyMember.u_available_time" :disabled="isTheSameLevel" value-format="timestamp" type="date" placeholder="请选择有效期"/>
+          <el-date-picker
+            v-model="requestEditCompanyMember.u_available_time"
+            :disabled="isTheSameLevel"
+            type="datetime"
+            value-format="timestamp"
+            placeholder="请选择有效期"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-right: 20px;margin-top: 0;">
@@ -120,7 +117,6 @@ export default {
   directives: { waves },
   data() {
     return {
-      size: 'mini',
       CompanyMemberInfoRules: {
         u_name: [{ required: true, trigger: 'change', validator: (rule, value, callback) => {
           if (value === undefined || value === '') {
@@ -196,7 +192,7 @@ export default {
   methods: {
     /**
      * @Description: 获取人员列表
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     getMemberList() {
       this.resquestGetMember.project_id = this.selected_project_id
@@ -213,14 +209,14 @@ export default {
 
     /**
      * @Description: 列表勾选回调
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
     /**
      * @Description: 打开成员编辑对话框
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     openDialogMemberEdit(info) {
       this.dialogEditVisible = true
@@ -233,22 +229,23 @@ export default {
     },
     /**
      * @Description: 关闭成员编辑对话框
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     closeDialogMemberEdit() {
       this.dialogEditVisible = false
     },
     /**
      * @Description: 成员编辑事件
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     onMemberEdit() {
       this.requestEditCompanyMember.project_id = this.selected_project_id
       this.$refs.formEditCompanyMember.validate(valid => {
         if (valid) {
           this.isButtonEditLoading = true
-          this.requestEditCompanyMember.u_available_time = parseInt(this.requestEditCompanyMember.u_available_time / 1000)
-          updateAdministrator(this.requestEditCompanyMember).then(() => {
+          const params = Object.assign({}, this.requestEditCompanyMember)
+          params.u_available_time = params.u_available_time / 1000
+          updateAdministrator(params).then(() => {
             this.$message({
               type: 'success',
               message: '编辑成功'
@@ -265,7 +262,7 @@ export default {
     },
     /**
      * @Description: 删除指定成员
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     onDeleteMembers() {
       this.$confirm('确认删除选中用户吗？', '提示', {
@@ -286,12 +283,13 @@ export default {
     },
     /**
      * @Description: 打开成员添加对话框
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     openDialogMemberAdd() {
       if (this.$refs.formAddCompanyMember !== undefined) this.$refs.formAddCompanyMember.resetFields()
       this.requestAddCompanyMember.name = undefined
       this.requestAddCompanyMember.nickname	 = undefined
+
       this.requestAddCompanyMember.phone = undefined
       this.requestAddCompanyMember.note = undefined
       this.requestAddCompanyMember.available_time = undefined
@@ -299,22 +297,23 @@ export default {
     },
     /**
      * @Description: 关闭成员添加对话框
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     closeDialogMemberAdd() {
       this.dialogAddVisible = false
     },
     /**
      * @Description: 成员添加事件
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     onMemberAdd() {
       this.requestAddCompanyMember.project_id = this.selected_project_id
       this.$refs.formAddCompanyMember.validate(valid => {
         if (valid) {
           this.isButtonAddLoading = true
-          this.requestAddCompanyMember.u_available_time = parseInt(this.requestAddCompanyMember.u_available_time / 1000)
-          addAdministrator(this.requestAddCompanyMember).then(() => {
+          const params = Object.assign({}, this.requestAddCompanyMember)
+          params.u_available_time = params.u_available_time / 1000
+          addAdministrator(params).then(() => {
             this.$message({
               type: 'success',
               message: '添加成功'
@@ -331,7 +330,7 @@ export default {
     },
     /**
      * @Description: 事件格式转换
-     * @Date: 2021/8/23
+     * @Date: 2019/5/6
      **/
     getTime(time) {
       return Formattimestamp(time)

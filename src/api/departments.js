@@ -40,7 +40,7 @@ export function editDepartment(params) {
 // 获取部门列表
 export function getDepartmentsByCompany(params) {
   return request({
-    url: '/departments/index2',
+    url: '/departments/menu',
     method: 'post',
     data: qs.stringify(params)
   })

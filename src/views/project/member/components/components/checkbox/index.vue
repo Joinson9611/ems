@@ -5,7 +5,7 @@
     </div>
     <div class="permission-detail">
       <el-checkbox-group v-model="checkedList" @change="handleCheckeditem">
-        <el-checkbox v-for="item in checkboxData.list" :disabled="disabledSingle(item.pid)" :label="item.pid" :key="item.pid" class="checkbox-item" >{{ item.label }}</el-checkbox>
+        <el-checkbox v-for="item in checkboxData.list" v-show="item.show" :disabled="disabledSingle(item.pid)" :label="item.pid" :key="item.pid" class="checkbox-item" >{{ item.label }}</el-checkbox>
       </el-checkbox-group>
     </div>
   </div>

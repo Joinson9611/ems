@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import qs from 'qs'
 
 // 获取建筑列表 建筑管理使用
-export function getBuildingListByPage(params) {
+export function getBuildingInfoList(params) {
   return request({
     url: '/buildings/index',
     method: 'post',
@@ -13,7 +13,7 @@ export function getBuildingListByPage(params) {
 // 获取建筑列表 下拉框使用
 export function getBuildingList(params) {
   return request({
-    url: '/buildings/index2',
+    url: '/buildings/menu',
     method: 'post',
     data: qs.stringify(params)
   })
@@ -29,7 +29,7 @@ export function deleteBuildings(params) {
 }
 
 // 新建建筑物
-export function addNewBuilding(params) {
+export function addBuilding(params) {
   return request({
     url: '/buildings/save',
     method: 'post',

@@ -1,13 +1,19 @@
 <template>
   <div class="app-main">
-    <el-tabs v-if="isprojectusershow" @tap-click="tabTap">
-      <el-tab-pane v-if="isprojectadminshow" label="项目管理员" >
+    <el-tabs lazy @tab-click="changeTab">
+      <el-tab-pane v-if="isSuperadminshow" label="项目管理员" >
         <Superadmin />
       </el-tab-pane>
-      <el-tab-pane label="人员" lazy>
+      <el-tab-pane v-if="isCompanyShow" label="单位" >
+        <company />
+      </el-tab-pane>
+      <el-tab-pane v-if="isDepartmentShow" label="部门" lazy>
+        <Department />
+      </el-tab-pane>
+      <el-tab-pane v-if="isRoleShow" label="人员" lazy>
         <Member />
       </el-tab-pane>
-      <el-tab-pane label="角色" lazy>
+      <el-tab-pane v-if="isRoleShow" label="角色" lazy>
         <permission />
       </el-tab-pane>
     </el-tabs>
@@ -15,16 +21,22 @@
 </template>
 
 <script>
-import Superadmin from './components/superadmin'
 import permission from './components/permission'
+import Company from './components/Company'
 import Member from './components/Member'
+import Department from './components/Department'
+import Superadmin from './components/superadmin'
 import { mapGetters } from 'vuex'
 
 export default {
-  components: { Member, permission, Superadmin },
+  components: { Company, Member, Department, permission, Superadmin },
   data() {
     return {
       key: 0,
+      mangmentTab: [
+        { name: 'department', label: '部门管理', cName: 'Department' },
+        { name: 'member', label: '人员管理', cName: 'Member' }
+      ],
       activeName: 'company'
     }
   },
@@ -32,17 +44,30 @@ export default {
     ...mapGetters([
       'Account_Type'
     ]),
-    isprojectadminshow: function() {
+    isSuperadminshow: function() {
       return [1, 2, 10].includes(this.Account_Type)
     },
-    isprojectusershow: function() {
+    isCompanyShow: function() {
       return [1, 2, 10, 11].includes(this.Account_Type)
+    },
+    isDepartmentShow: function() {
+      return [1, 2, 10, 11, 12].includes(this.Account_Type)
+    },
+    isRoleShow() {
+      return [1, 2, 10, 11, 12, 13].includes(this.Account_Type)
     }
   },
   methods: {
-    tabTap() {
+    changeTab() {
       this.key++
     }
+    // tabShow() {
+    //   if (this.Account_Type === 0) {
+    //     this.activeName = 'company'
+    //   } else {
+    //     this.activeName = 'department'
+    //   }
+    // }
   }
 }
 </script>

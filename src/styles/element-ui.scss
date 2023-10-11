@@ -27,3 +27,55 @@
     }
   }
 }
+
+.el-button--primary {
+  background-color: #009a76;
+  border-color: #009a76;
+  &:hover {
+    opacity: .8;
+    background-color: #009a76;
+    border-color: #009a76;
+  }
+}
+
+.el-drawer__body{
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 0
+}
+.body-wrapper {
+  flex: 1;
+  overflow: auto;
+  .device-item {
+    .el-divider--horizontal {
+      margin: 0;
+    }
+    .item {
+      .list{
+        font-size: 14px;
+        .title {
+          height: 30px;
+          line-height: 30px;
+          color:#303133;
+        }
+        .content {
+          height: 30px;
+          line-height: 30px;
+          color:#909399;
+        }
+      }
+    }
+  }
+  .el-form-item__content {
+    span {
+      color: #99a9bf;
+    }
+  }
+  .el-form-item {
+    margin-bottom: 0;
+  }
+}
+.el-drawer__header {
+  margin-bottom: 20px;
+}

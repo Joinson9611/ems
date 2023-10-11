@@ -1,15 +1,11 @@
 <template>
   <div class="app-main">
     <div class="app-title-item">
-      <!-- <span class="company-text">{{ user_company || '政和智慧网络技术有限单位' }}</span> -->
-      <span class="tip-text">欢迎使用开拓灯控系统</span>
+      <span class="tip-text">欢迎使用灯光智控系统</span>
       <span class="tip-text">点击新建项目来创建一个新项目</span>
       <span class="tip-text">单机进入项目可以查看项目具体内容</span>
       <span class="tip-text"><el-button v-if="isMangmentShow" size="mini" type="primary" @click.native="$router.push('/platform/mangment')">后台人员管理</el-button></span>
     </div>
-    <!-- <div class="app-button-item">
-      <el-button v-waves v-if="isCreateProjectShow" type="primary" @click="openAddProject">新建项目</el-button>
-    </div> -->
     <div class="app-project_item">
       <el-card shadow="never" class="project-list" body-style="padding: 0;">
         <div slot="header" class="clearfix">
@@ -18,7 +14,7 @@
             <!--新建-->
             <el-button v-waves v-if="isCreateProjectShow" class="filter-item" style="margin-left: 10px" size="mini" type="primary" icon="el-icon-plus" @click="openAddProject">新建项目</el-button>
             <!--删除-->
-            <el-button v-waves v-loading="isDeleteLoading" v-if="isDeteteProject" :disabled="projectselection.length===0" size="mini" class="filter-item" type="danger" icon="el-icon-delete" @click="deleteProjects">删除项目</el-button>
+            <!-- <el-button v-waves v-loading="isDeleteLoading" v-if="isDeteteProject" :disabled="projectselection.length===0" size="mini" class="filter-item" type="danger" icon="el-icon-delete" @click="deleteProjects">删除项目</el-button> -->
           </div>
         </div>
         <el-table
@@ -30,11 +26,11 @@
           highlight-current-row
           @selection-change="handleSelectionChange"
         >
-          <el-table-column
+          <!-- <el-table-column
             type="selection"
             align="center"
             width="50"
-          />
+          /> -->
           <el-table-column label="序号" align="center" width="70">
             <template slot-scope="scope"><span>{{ scope.$index + 1 }} </span></template>
           </el-table-column>
@@ -56,7 +52,7 @@
           <el-table-column
             align="center"
             label="操作"
-            width="130"
+            width="200"
             fixed="right"
           >
             <template slot-scope="scope" class="tab-btn">
@@ -67,6 +63,15 @@
                 @click="onProjectSelected(scope.row)"
               >
                 进入项目
+              </el-button>
+              <el-button
+                v-if="isDeteteProject"
+                class="btn"
+                type="danger"
+                size="mini"
+                @click="deleteProjects(scope.row)"
+              >
+                删除
               </el-button>
             </template>
           </el-table-column>
@@ -88,15 +93,6 @@
           <el-form-item label="项目描述" class="dialog-form-item" prop="label">
             <el-input :readonly="!isEditProject" v-model="paramsProject.label" type="text"/>
           </el-form-item>
-          <!-- <el-form-item :size="size" label="功能模块" class="dialog-form-item" prop="module_list">
-            <div class="checkbox">
-              <el-checkbox :disabled="!isEditProject" v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
-              <div style="margin: 15px 0;" />
-              <el-checkbox-group :disabled="!isEditProject" :readonly="!isEditProject" v-model="paramsProject.module_list" @change="handleCheckedChange">
-                <el-checkbox v-for="item in deviceTypeOptions" :key="item.device_type_id" :label="item.device_type_id">{{ item.device_type }}</el-checkbox>
-              </el-checkbox-group>
-            </div>
-          </el-form-item> -->
         </el-form>
         <div slot="footer" class="dialog-footer" style="margin-right: 20px;margin-top: 0;">
           <el-button v-waves @click.native="dialogProjectVisible = false">取消</el-button>
@@ -108,9 +104,7 @@
 </template>
 
 <script>
-// import { getUserModule } from '@/api/users'
 import { getProjects, editProjectInfo, addProject, deleteProject } from '@/api/project'
-// import { getDeviceTypes } from '@/api/devices'
 import { mapGetters } from 'vuex'
 import waves from '@/directive/waves'
 
@@ -182,12 +176,12 @@ export default {
       this.projectselection = val
     },
 
-    deleteProjects() {
+    deleteProjects({ project_id }) {
       this.$confirm('确认删除选中项目吗？', '提示', {
         type: 'warning'
       }).then(() => {
         this.isDeleteLoading = true
-        deleteProject({ project_id_list: this.projectselection.map(item => item.project_id) }).then(() => {
+        deleteProject({ project_id }).then(() => {
           this.isDeleteLoading = false
           this.$message({
             type: 'success',
@@ -205,15 +199,6 @@ export default {
       if (this.$refs.formProject) this.$refs.formProject.clearValidate()
     },
 
-    // handleCheckAllChange(val) {
-    //   this.paramsProject.module_list = val ? this.deviceTypeOptions.map(item => item.device_type_id) : []
-    //   this.isIndeterminate = false
-    // },
-    // handleCheckedChange(value) {
-    //   const checkedCount = value.length
-    //   this.checkAll = checkedCount === this.deviceTypeOptions.length
-    //   this.isIndeterminate = checkedCount > 0 && checkedCount < this.deviceTypeOptions.length
-    // },
     // 打开项目新建对话框
     openAddProject() {
       if (this.$refs.formProject !== undefined) this.$refs.formProject.resetFields()
@@ -232,23 +217,6 @@ export default {
       // this.checkAll = this.deviceTypeOptions.length === this.paramsProject.module_list.length
       // this.isIndeterminate = this.deviceTypeOptions.length > this.paramsProject.module_list.length && this.paramsProject.module_list.length > 0
     },
-    // getDeviceTypes2() {
-    //   getDeviceTypes().then(res => {
-    //     let selectMOD = []
-    //     this.deviceTypeOptions = res.data.items
-    //     getUserModule().then(res => {
-    //       selectMOD = res.data.module_list.split(',').map(item => item * 1)
-    //       this.deviceTypeOptions = this.deviceTypeOptions.filter(item => {
-    //         return selectMOD.includes(item.device_type_id)
-    //       })
-    //     }).catch(() => {})
-    //   }).catch(() => {})
-    // },
-    // getDeviceTypes() {
-    //   getDeviceTypes().then(res => {
-    //     this.deviceTypeOptions = res.data.items
-    //   }).catch(() => {})
-    // },
     // 提交编辑/信息
     onProjectInfoSubmit() {
       this.$refs.formProject.validate(valid => {
@@ -280,7 +248,6 @@ export default {
               name: this.paramsProject.project_name,
               address: this.paramsProject.address,
               label: this.paramsProject.label,
-              // module_list: this.paramsProject.module_list.join(','),
               module_list: ''
             }
             editProjectInfo(params).then(() => {
@@ -298,6 +265,7 @@ export default {
         }
       })
     },
+
     init() {
       this.paramsProject.project_name = undefined
       this.paramsProject.address = undefined
@@ -306,12 +274,14 @@ export default {
       this.isIndeterminate = false
       this.checkAll = false
     },
+
     /**
      * @Description: 获取各个项目的图片url
      **/
     getProjectImageUrl(ID) {
       return process.env.PROJECT_IMAGE_URL + ID + '.jpg' + '?t=' + (+new Date())
     },
+
     /**
      * @Description: 去往管理页面
      **/
@@ -367,6 +337,10 @@ export default {
     padding: 5px;
     border: 1px solid #DCDFE6;
     border-radius: 4px;
+  }
+  /deep/.el-transfer-panel {
+    width: 300px;
+    height: 450px;
   }
   .app-title-item {
     margin-left: 10px;

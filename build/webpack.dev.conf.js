@@ -58,7 +58,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       inject: true,
       // favicon: resolve('favicon.ico'),
       favicon: './favicon.ico',
-      title: '开拓灯控系统'
+      title: '灯光智控系统'
     })
   ]
 })

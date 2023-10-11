@@ -1,92 +1,86 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-// 获取设备列表
-export function getDevicesList(params) {
+/**
+ * @Description: 获取设备信息列表
+ * @Date: 2022/5/18
+ **/
+export function getDeviceInfoList(Params) {
   return request({
     url: '/devices/index',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }
 
-// 获取设备列表用于物联模块
-export function getDevList2ForIot(params) {
+/**
+ * @Description: 获取设备列表(下拉菜单)
+ * @Date: 2022/5/18
+ **/
+export function getDeviceList(Params) {
   return request({
-    url: '/devices/index2',
+    url: '/devices/menu',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }
 
-// 获取物联设备统计
-export function getDevicesDetail(params) {
+/**
+ * @Description: 获取设备详情(下拉菜单)
+ * @Date: 2022/5/18
+ **/
+export function getDeviceInfo(Params) {
   return request({
-    url: '/devices/detail',
+    url: '/devices/read',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }
 
-// 获取物联设备详情
-export function getDevInfoForIot(params) {
-  return request({
-    url: '/devices/read2',
-    method: 'post',
-    data: qs.stringify(params)
-  })
-}
-
-export function getDeviceTypes(params) {
-  return request({
-    url: '/devicetypes/index2',
-    method: 'post',
-    data: qs.stringify(params)
-  })
-}
-
-// 设备添加
-export function addDevice(params) {
+/**
+ * @Description: 添加设备
+ * @Date: 2022/5/18
+ **/
+export function addDevice(Params) {
   return request({
     url: '/devices/save',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }
 
-// 设备编辑
-export function editDevice(params) {
-  return request({
-    url: '/devices/update',
-    method: 'post',
-    data: qs.stringify(params)
-  })
-}
-
-// 设备删除
-export function deleteDevice(params) {
+/**
+ * @Description: 删除指定ID的设备
+ * @Date: 2022/5/18
+ **/
+export function deleteDevice(Params) {
   return request({
     url: '/devices/delete',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }
 
-// 导入设备表
-export function importDevicesFile(params) {
+/**
+ * @Description: 修改对应ID 的设备信息
+ * @Date: 2022/5/18
+ **/
+export function updateDevice(Params) {
   return request({
-    url: '/devices/import',
+    url: '/devices/update',
     method: 'post',
-    data: params
+    data: qs.stringify(Params)
   })
 }
 
-// 导出设备Excel表
-export function exportDevicesFile(params) {
+/**
+ * @Description: 获取控制页面控制器列表
+ * @Date: 2022/7/28
+ **/
+export function getCtrlList(Params) {
   return request({
-    url: '/devices/export',
+    url: '/devices/ctrllist',
     method: 'post',
-    responseType: 'blob',
-    data: qs.stringify(params)
+    data: qs.stringify(Params)
   })
 }

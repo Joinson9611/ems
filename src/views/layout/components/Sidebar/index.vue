@@ -14,12 +14,10 @@
     </el-menu>
   </el-scrollbar>
 </template>
-
 <script>
 import { mapGetters } from 'vuex'
 import variables from '@/styles/variables.scss'
 import SidebarItem from './SidebarItem'
-
 export default {
   components: { SidebarItem },
   computed: {
@@ -33,6 +31,10 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     }
+  },
+  created() {
+    console.log(this.permission_routers)
   }
 }
 </script>
+

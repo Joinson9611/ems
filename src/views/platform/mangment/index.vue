@@ -385,7 +385,7 @@ export default {
   created() {
     // this.getDeviceTypes()
     this.getMemberList()
-    this.getLevelList()
+    // this.getLevelList()
   },
   methods: {
     isSelectModule(val) {

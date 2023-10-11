@@ -16,6 +16,8 @@ export default {
       required: true
     }
   },
+  created() {
+  },
   methods: {
     linkProps(url) {
       if (isExternal(url)) {

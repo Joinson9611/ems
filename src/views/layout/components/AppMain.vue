@@ -3,7 +3,7 @@
     <!--转场方式-->
     <div>
       <el-scrollbar id="scroller-box" class="sidebar">
-        <transition name="fade-transform" mode="out-in">
+        <transition name="fade" mode="out-in">
           <keep-alive :include="include" >
             <router-view v-if="needKey" :key="key"/>
             <router-view v-else/>

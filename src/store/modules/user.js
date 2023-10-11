@@ -74,7 +74,7 @@ const user = {
     Login({ commit }, userInfo) {
       const loginParam = {
         user_name: userInfo.username.trim(),
-        user_password: md5.hexMD5(userInfo.password + 'fiot_salt')
+        user_password: md5.hexMD5(userInfo.password + 'alarm_salt')
       }
       return new Promise((resolve, reject) => {
         login(loginParam).then(response => {
@@ -97,9 +97,9 @@ const user = {
           getUserInfo({ project_id: state.selected_project_id }).then(response => {
             const data = response.data
             let roles
-            if (data.rules !== null) {
+            if (data.roles !== null) {
               // 判断返回的路由权限
-              roles = (data.rules + ',' + data.module_list).split(',')
+              roles = (data.roles + ',' + data.module_list).split(',')
               if (roles && roles.length > 0) { // 验证返回的roles是否是一个非空数组
                 commit('SET_ROLES', roles)
               } else {
@@ -109,6 +109,8 @@ const user = {
               reject('getUserInfo: roles must be a non-null array !')
             }
             // 存储用户的基本信息
+            commit('SET_COMPANY_ID', data.company_id)
+            commit('SET_DEPARTMENT_ID', data.department_id)
             commit('SET_NAME', data.user_name)
             commit('SET_USER_LEVEL', data.level)
             commit('SET_USER_IMAGE', process.env.HEAD_IMAGE_URL + data.user_id + '.jpg')

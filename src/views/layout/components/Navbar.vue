@@ -5,6 +5,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click" @command="handleCommand">
         <div>
+          <!-- <div class="logo-wrapper"/> -->
           <!-- <div class="avatar-wrapper">
             <img :src="user_image+'?imageView2/1/w/80/h/80'" class="user-avatar" @error="imgError">
           </div> -->
@@ -18,6 +19,9 @@
           </router-link>
           <el-dropdown-item divided command="projects" >
             管理平台
+          </el-dropdown-item>
+          <el-dropdown-item v-if="[1,2].includes(Account_Type)" divided command="setting" @click.native="toPageSetting">
+            logo设置
           </el-dropdown-item>
           <el-dropdown-item divided command="userInfo">
             信息修改
@@ -60,7 +64,6 @@ export default {
       const img = event.srcElement
       img.src = process.env.HEAD_IMAGE_URL + '0.png?imageView2/1/w/80/h/80'
       img.onerror = null
-      console.log(456)
     },
     handleCommand(com) {
       switch (com) {
@@ -79,6 +82,9 @@ export default {
     },
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar').then(() => {})
+    },
+    toPageSetting() {
+      this.$router.push('/fullscreen/setting')
     }
   }
 }
@@ -109,7 +115,6 @@ export default {
     padding: 0 10px;
     cursor: pointer;
     transition: background .3s;
-
     &:hover {
       background: rgba(0, 0, 0, .1)
     }
@@ -122,10 +127,10 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
-
     &:focus {
       outline: none;
     }
+
     .right-menu-item {
       display: inline-block;
       padding: 0 8px;
@@ -133,7 +138,13 @@ export default {
       font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;
-
+      .logo-wrapper {
+        margin-top: 3px;
+        width: 50px;
+        height: 44px;
+        background-size: 100% 100%;
+        background-image: url('~@/assets/temp_images/logo.png');
+      }
       &.hover-effect {
         cursor: pointer;
         transition: background .3s;
